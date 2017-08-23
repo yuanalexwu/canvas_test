@@ -18,13 +18,17 @@ import React, { Component } from 'react';
 // import C506 from './chapter/c506'
 // import C508 from './chapter/c508'
 // import C510 from './chapter/c510'
-import C511 from './chapter/c511'
+// import C511 from './chapter/c511'
+// import C701 from './chapter/c701'
+// import C703 from './chapter/c703'
+// import C704 from './chapter/c704'
+import C706 from './chapter/c706'
 
 class App extends Component {
   render() {
     return (
       <div>
-        <C511 />
+        <C706 />
       </div>
     );
   }

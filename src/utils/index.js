@@ -56,3 +56,19 @@ export function parseColor (color, toNumber) {
   }
 };
 
+/**
+ * Check the given point is in rect
+ * @param rect
+ * @param x
+ * @param y
+ * @returns {boolean}
+ */
+export function containsPoint (rect, x, y) {
+  const {x: rectX, y: rectY, width, height} = rect
+  return !(
+    x < rectX ||
+    x > rectX + width ||
+    y < rectY ||
+    y > rectY + height
+  )
+}

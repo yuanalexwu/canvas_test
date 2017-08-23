@@ -30,6 +30,17 @@ class Ball {
 
     context.restore()
   }
+
+  getContainer () {
+    const width = this.radius * 2
+    const height = width
+    return {
+      x: this.x - this.radius,
+      y: this.y - this.radius,
+      width,
+      height
+    }
+  }
 }
 
 export default Ball
