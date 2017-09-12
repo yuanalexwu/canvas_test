@@ -22,13 +22,14 @@ import React, { Component } from 'react';
 // import C701 from './chapter/c701'
 // import C703 from './chapter/c703'
 // import C704 from './chapter/c704'
-import C706 from './chapter/c706'
+// import C706 from './chapter/c706'
+import Interactive from './chapter/ineractive'
 
 class App extends Component {
   render() {
     return (
       <div>
-        <C706 />
+        <Interactive />
       </div>
     );
   }

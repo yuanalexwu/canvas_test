@@ -39,7 +39,7 @@ class C706 extends Component {
         this.canvas.addEventListener('mousemove', this.onMouseMove, false)
         this.canvas.addEventListener('mouseup', this.onMouseUp, false)
       }
-    })
+    }, false)
   }
 
   onMouseMove = () => {
