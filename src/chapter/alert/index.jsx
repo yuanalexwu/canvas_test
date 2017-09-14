@@ -22,6 +22,7 @@ class Alert extends Component {
     this.yDragOffset = 0
     this.selection = null
     this.needReDraw = true
+    this.isDraggingPoint = false
     const x = 10
     const y = 50
     const rows = [
@@ -40,7 +41,7 @@ class Alert extends Component {
         {text: '正常'},
       ],
     ]
-    const point = {x: 10, y: 10, r: 5, color: 'blue'}
+    const point = {x: 500, y: 500, r: 5, color: 'blue'}
     this.shape = new Table(x, y, rows, point)
 
     this.bindEvent()
@@ -50,13 +51,20 @@ class Alert extends Component {
   bindEvent = () => {
     const {canvas} = this
     canvas.addEventListener('mousedown', () => {
+      this.isDraggingPoint = false
       const {shape, mouse} = this
+      const {alertPoint} = shape
       const {x: xMouse, y: yMouse} = mouse
-      const container = shape.getContainer()
-      if (containsPoint(container, xMouse, yMouse)) {
+      if (containsPoint(shape.getContainer(), xMouse, yMouse)) {
         this.xDragOffset = xMouse - shape.x
         this.yDragOffset = yMouse - shape.y
         this.isDragging = true
+        this.selection = shape
+      } else if (alertPoint && containsPoint(alertPoint.getContainer(), xMouse, yMouse)) {
+        this.xDragOffset = xMouse - alertPoint.x
+        this.yDragOffset = yMouse - alertPoint.y
+        this.isDragging = true
+        this.isDraggingPoint = true
         this.selection = shape
       } else {
         this.selection = null
@@ -66,10 +74,21 @@ class Alert extends Component {
 
     canvas.addEventListener('mousemove', () => {
       if (this.isDragging) {
-        const {selection, mouse, xDragOffset, yDragOffset} = this
+        const {
+          selection,
+          mouse,
+          xDragOffset,
+          yDragOffset,
+          isDraggingPoint
+        } = this
         const {x: xMouse, y: yMouse} = mouse
-        selection.x = xMouse - xDragOffset
-        selection.y = yMouse - yDragOffset
+        if (isDraggingPoint) {
+          selection.alertPoint.x = xMouse - xDragOffset
+          selection.alertPoint.y = yMouse - yDragOffset
+        } else {
+          selection.x = xMouse - xDragOffset
+          selection.y = yMouse - yDragOffset
+        }
         this.needReDraw = true
       }
     })
@@ -83,13 +102,26 @@ class Alert extends Component {
     window.requestAnimationFrame(this.draw, this.canvas)
     if (this.needReDraw) {
       this.clear()
-      const {ctx, shape, selection} = this
+      const {ctx, shape, selection, isDraggingPoint} = this
+      const {alertPoint} = shape
+      const selectedObject = isDraggingPoint ? alertPoint : shape
+      let {
+        x: xSelection,
+        y: ySelection,
+        width: wSelection,
+        height: hSelection
+      } = selectedObject.getContainer()
       shape.draw(ctx)
       if (selection) {
         ctx.save()
+        ctx.beginPath()
         ctx.strokeStyle = 'red'
         ctx.lineWidth = 2
-        ctx.strokeRect(selection.x, selection.y, selection.w, selection.h)
+        if (isDraggingPoint) {
+          xSelection -= wSelection / 2
+          ySelection -= hSelection / 2
+        }
+        ctx.strokeRect(xSelection, ySelection, wSelection, hSelection)
         ctx.restore()
       }
       this.needReDraw = false

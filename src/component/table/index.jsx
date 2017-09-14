@@ -8,6 +8,11 @@ class Table {
     this.y = y
     this.list = list
     this.point = point
+    this.alertPoint = null
+    if (this.hasPoint(point)) {
+      const {x, y, r, color} = point
+      this.alertPoint = new Point(x, y, r, color)
+    }
   }
 
   draw = ctx => {
@@ -28,27 +33,25 @@ class Table {
     this.w = tableWidth
     this.h = tableHeight
 
-    this.drawLine(ctx)
     this.drawPoint(ctx)
   }
 
-  drawLine = ctx => {
-    const {point} = this
-    const {color, x, y} = point
-    if (this.hasPoint(point)) {
-      const nearestPoint = this.getTheNearestTableCornerFromPoint(point, this.getPoints())
-      const {x: xPoint, y: yPoint} = nearestPoint
-      const line = new Line(x, y, xPoint, yPoint, color)
-      line.draw(ctx)
+  drawPoint = ctx => {
+    const {alertPoint} = this
+    if (alertPoint) {
+      alertPoint.draw(ctx)
+      this.drawLine(ctx)
     }
   }
 
-  drawPoint = ctx => {
-    const {point} = this
-    if (this.hasPoint(point)) {
-      const {x, y, r, color} = point
-      const pnt = new Point(x, y, r, color)
-      pnt.draw(ctx)
+  drawLine = ctx => {
+    const {alertPoint} = this
+    if (alertPoint) {
+      const {x, y, color} = alertPoint
+      const nearestPoint = this.getTheNearestTableCornerFromPoint(alertPoint, this.getPoints())
+      const {x: xPoint, y: yPoint} = nearestPoint
+      const line = new Line(x, y, xPoint, yPoint, color)
+      line.draw(ctx)
     }
   }
 
