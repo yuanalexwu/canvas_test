@@ -11,8 +11,8 @@ class C410 extends Component {
     // const canvas_height = this.canvas.height
     const xDest = 0
     const yDest = 0
-    const destWidth = 100
-    const destHeight = 100
+    const destWidth = 200
+    const destHeight = 200
     const xSlice = 100
     const ySlice = 100
     const sliceWidth = 100
@@ -21,8 +21,8 @@ class C410 extends Component {
     image.src = img
     image.onload = function () {
       // ctx.drawImage(image, xDest, yDest)
-      // ctx.drawImage(image, xDest, yDest, destWidth, destHeight)
-      ctx.drawImage(image, xSlice, ySlice, sliceWidth, sliceHeight, xDest, yDest, destWidth, destHeight)
+      ctx.drawImage(image, xDest, yDest, destWidth, destHeight)
+      // ctx.drawImage(image, xSlice, ySlice, sliceWidth, sliceHeight, xDest, yDest, destWidth, destHeight)
     }
   }
 

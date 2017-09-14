@@ -24,6 +24,8 @@ import React, { Component } from 'react';
 // import C704 from './chapter/c704'
 // import C706 from './chapter/c706'
 import Interactive from './chapter/ineractive'
+// import ImageTest from './chapter/image_test'
+// import Alert from './chapter/alert'
 
 class App extends Component {
   render() {
